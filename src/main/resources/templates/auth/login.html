@@ -1,0 +1,32 @@
+<div layout:decorate="~{auth/layout.html}">
+  <div
+    layout:fragment="main"
+    class="text-start bg-white rounded p-3"
+    style="width: 500px;"
+  >
+    <div th:if="${param.error != null}" class="alert alert-dismissible alert-danger fade show" role="alert">
+      Sai thông tin đăng nhập!
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    <form th:action="@{/login}" method="post">
+      <div class="mb-3">
+        <label for="username">Tên đăng nhập</label>
+        <input type="text" name="username" class="form-control" autofocus />
+      </div>
+      <div class="mb-3">
+        <label for="password">Mật khẩu</label>
+        <input type="password" name="password" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary form-control">
+          Đăng nhập
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

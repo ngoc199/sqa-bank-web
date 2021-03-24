@@ -1,0 +1,30 @@
+<html layout:decorate="~{bank-account/layout.html}">
+    <div layout:fragment="main">
+        <div class="container">
+            <h1>Tài khoản của bạn</h1>
+            <div th:if="${checkingAccount == null}">Bạn không có tài khoản thanh toán</div>
+            <div th:if="${checkingAccount != null}">
+                <div th:text="${checkingAccount.id}"></div>
+            </div>
+            <div th:if="${savingAccounts == null || savingAccounts.isEmpty}">
+                <p class="text-danger"><i>Bạn chưa có tài khoản tiết kiệm</i></p>
+                <button disabled="disabled" class="btn btn-primary">Đăng ký tài khoản tiết kiệm</button>
+            </div>
+            <div th:if="${savingAccounts != null && !savingAccounts.isEmpty}">
+                <div th:each="account : ${savingAccounts}">
+                    <p th:text="${account.id}"></p>
+                </div>
+            </div>
+            <div th:if="${loanAccounts == null || loanAccounts.isEmpty}">
+                <p class="text-danger"><i>Bạn chưa có tài khoản tiết kiệm</i></p>
+                <button disabled="disabled" class="btn btn-primary">Đăng ký tài khoản tiết kiệm</button>
+            </div>
+            <div th:if="${loanAccounts != null && !loanAccounts.isEmpty}">
+                <div th:each="account : ${loanAccounts}">
+                    <p th:text="${account.id}"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</html>
