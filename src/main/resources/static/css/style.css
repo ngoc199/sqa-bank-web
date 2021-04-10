@@ -1,0 +1,25 @@
+.btn-secondary:focus {
+    box-shadow: none!important;
+}
+
+.btn[data-bs-toggle="collapse"][aria-expanded="true"] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* My Account Details */
+
+.account-details {
+    border-bottom: 1px solid var(--bs-secondary);
+    margin-bottom: 1rem;
+}
+
+.account-details:last-child {
+    border-bottom: unset;
+    margin-bottom: unset;
+}
+
+.account-details p {
+    font-size: 1.3rem;
+    font-weight: bold;
+}

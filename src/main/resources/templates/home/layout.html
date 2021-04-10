@@ -1,9 +1,9 @@
 <html layout:decorate="~{layout.html}">
   <div layout:fragment="content">
     <div th:replace="includes/navbar :: navbar"></div>
-    <div style="min-height: 100vh;">
+    <section>
       <div layout:fragment="main"></div>
-    </div>
+    </section>
     <div th:replace="includes/footer :: footer"></div>
   </div>
 </html>

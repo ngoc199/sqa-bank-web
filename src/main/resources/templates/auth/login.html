@@ -1,11 +1,15 @@
-<div layout:decorate="~{auth/layout.html}">
+<div layout:decorate="~{auth/layout.html}" th:with="title=#{title.login-title}">
   <div
     layout:fragment="main"
     class="text-start bg-white rounded p-3"
-    style="width: 500px;"
+    style="width: 500px"
   >
-    <div th:if="${param.error != null}" class="alert alert-dismissible alert-danger fade show" role="alert">
-      Sai thông tin đăng nhập!
+    <div
+      th:if="${param.error != null}"
+      class="alert alert-dismissible alert-danger fade show"
+      role="alert"
+    >
+      <span th:text="#{login.failed}"></span>
       <button
         type="button"
         class="btn-close"
@@ -15,17 +19,33 @@
     </div>
     <form th:action="@{/login}" method="post">
       <div class="mb-3">
-        <label for="username">Tên đăng nhập</label>
-        <input type="text" name="username" class="form-control" autofocus />
+        <label for="username" th:text="#{form.fields.username}"></label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          class="form-control"
+          autofocus
+          required
+        />
       </div>
       <div class="mb-3">
-        <label for="password">Mật khẩu</label>
-        <input type="password" name="password" class="form-control" />
+        <label for="password" th:text="#{form.fields.password}"></label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          class="form-control"
+          required
+        />
       </div>
       <div class="mb-3">
-        <button type="submit" class="btn btn-primary form-control">
-          Đăng nhập
-        </button>
+        <button
+          type="submit"
+          class="btn btn-primary form-control"
+          th:title="#{button.login}"
+          th:text="#{button.login}"
+        ></button>
       </div>
     </form>
   </div>

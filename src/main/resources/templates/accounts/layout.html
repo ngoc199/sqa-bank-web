@@ -1,0 +1,13 @@
+<html layout:decorate="~{layout.html}">
+  <div layout:fragment="content">
+    <div th:replace="includes/navbar :: navbar"></div>
+    <div>
+      <div class="container">
+        <h1 class="text-center" th:text="#{heading.accounts(${accountListTitle})}"></h1>
+        <div th:replace="accounts/includes/navbar :: navbar"></div>
+        <div layout:fragment="main"></div>
+      </div>
+    </div>
+    <div th:replace="includes/footer :: footer"></div>
+  </div>
+</html>

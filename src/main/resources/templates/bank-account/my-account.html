@@ -1,30 +1,113 @@
-<html layout:decorate="~{bank-account/layout.html}">
-    <div layout:fragment="main">
-        <div class="container">
-            <h1>Tài khoản của bạn</h1>
-            <div th:if="${checkingAccount == null}">Bạn không có tài khoản thanh toán</div>
-            <div th:if="${checkingAccount != null}">
-                <div th:text="${checkingAccount.id}"></div>
-            </div>
-            <div th:if="${savingAccounts == null || savingAccounts.isEmpty}">
-                <p class="text-danger"><i>Bạn chưa có tài khoản tiết kiệm</i></p>
-                <button disabled="disabled" class="btn btn-primary">Đăng ký tài khoản tiết kiệm</button>
-            </div>
-            <div th:if="${savingAccounts != null && !savingAccounts.isEmpty}">
-                <div th:each="account : ${savingAccounts}">
-                    <p th:text="${account.id}"></p>
-                </div>
-            </div>
-            <div th:if="${loanAccounts == null || loanAccounts.isEmpty}">
-                <p class="text-danger"><i>Bạn chưa có tài khoản tiết kiệm</i></p>
-                <button disabled="disabled" class="btn btn-primary">Đăng ký tài khoản tiết kiệm</button>
-            </div>
-            <div th:if="${loanAccounts != null && !loanAccounts.isEmpty}">
-                <div th:each="account : ${loanAccounts}">
-                    <p th:text="${account.id}"></p>
-                </div>
-            </div>
+<html layout:decorate="~{bank-account/layout.html}" th:with="title=${'Tài khoản của ' + #authentication.getPrincipal().getUsername()}">
+  <div layout:fragment="main">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <h1 th:text="#{my-account.title}"></h1>
 
+          <!-- Saving Accounts -->
+          <div class="mb-4">
+            <div
+              th:if="${savingsAccounts != null}"
+            >
+              <button
+                class="btn btn-secondary w-100 d-flex justify-content-between"
+                th:disabled="${#lists.isEmpty(savingsAccounts)}"
+                data-bs-toggle="collapse"
+                data-bs-target="#saving-accounts"
+                th:aria-expanded="${#lists.isEmpty(savingsAccounts) ? 'false' : 'true'}"
+                aria-controls="saving-accounts-collapse"
+                th:title="#{navbar.nav-item.savings-accounts}"
+              >
+                <span th:text="#{navbar.nav-item.savings-accounts}"></span>
+                <span
+                  th:text="${'(' + #lists.size(savingsAccounts) + ')'}"
+                ></span>
+              </button>
+              <div
+                id="saving-accounts"
+                class="collapse border rounded-bottom p-3"
+                th:classappend="${#lists.isEmpty(savingsAccounts) ? '' : 'show'}"
+              >
+                <div th:each="account : ${savingsAccounts}" class="row account-details">
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{field.bank-account.name}"></label>
+                    <a th:href="@{/my-account/{id}(id=${account.id}, type='saving')}" th:text="${account.id}"></a>
+                  </div>
+                  <div class="col-md-6">
+                    <label th:text="#{table.head.rate}"></label>
+                    <p th:text="${account.interest.rate}"></p>
+                  </div>
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{table.head.period}"></label>
+                    <p th:text="${account.period}"></p>
+                  </div>
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{field.bank-account.savings.money}"></label>
+                    <p th:text="${account.balance}"></p>
+                  </div>
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{field.bank-account.currency}"></label>
+                    <p th:text="${account.currency.name()}"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loan Accounts -->
+          <div class="mb-4">
+            <div
+              th:if="${loanAccounts != null}"
+            >
+              <button
+                class="btn btn-secondary w-100 d-flex justify-content-between"
+                th:disabled="${#lists.isEmpty(loanAccounts)}"
+                data-bs-toggle="collapse"
+                data-bs-target="#loan-accounts"
+                th:aria-expanded="${#lists.isEmpty(savingsAccounts) ? 'false' : 'true'}"
+                aria-controls="loan-accounts-collapse"
+                th:title="#{navbar.nav-item.loan-accounts}"
+              >
+              <span th:text="#{navbar.nav-item.loan-accounts}"></span>
+              <span th:text="${'(' + #lists.size(loanAccounts) + ')'}"></span>
+            </button>
+              <div
+                id="loan-accounts"
+                class="collapse border rounded-bottom"
+                th:classappend="${#lists.isEmpty(savingsAccounts) ? '' : 'show'}"
+              >
+                <div class="row account-details" th:each="account : ${loanAccounts}" th:if="${!#lists.isEmpty(loanAccounts)}">
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{field.bank-account.name}"></label>
+                    <p th:text="${account.id}"></p>
+                  </div>
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{table.head.rate}"></label>
+                    <p th:text="${account.interest.rate}"></p>
+                  </div>
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{field.bank-account.loan.money}"></label>
+                    <p th:text="${account.balance}"></p>
+                  </div>
+                  <!-- Info -->
+                  <div class="col-md-6">
+                    <label th:text="#{field.bank-account.currency}"></label>
+                    <p th:text="${account.currency.name()}"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </html>

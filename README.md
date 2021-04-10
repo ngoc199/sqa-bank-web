@@ -1,11 +1,26 @@
-# Lưu ý
+# Hệ thống ngân hàng đề tài 13
+**Các chức năng:** Theo dõi tài khoản tiết kiệm, tài khoản vay, xuất báo cáo, quản lý cấu hình
+
+## Danh sách tài khoản kiểm thử
+|STT|Tên đăng nhập|Mật khẩu|Vai trò|
+|---:|---|---|---|
+|1|customer|password|CUSTOMER|
+|2|employee1|password|EMPLOYEE_CUSTOMER_CARE|
+|3|employee2|password|EMPLOYEE_ACCOUNTANT|
+|4|employee3|password|EMPLOYEE_MANAGER|
+
+## Lưu ý
 Phần mềm chưa được hoàn thành:
-* Sai lầm trong khâu thiết kế => cần được thiết kế lại và sửa mối quan hệ giữa các thực thể
-* Chưa có dữ liệu trong cơ sở dữ liệu
-* Chưa hoàn thiện toàn bộ giao diện (mới có trang chủ, đăng nhập và phần tài khoản của tôi)
+* Phần giao diện còn sơ sài, chưa được đẹp
 * Chưa làm phần sửa cấu hình
-# Đã làm
-* Hoàn thiện cơ bản phần thực thể (cần thiết kế lại)
+* Chưa làm phần tính lãi vay
+* Chưa có phần xuất báo cáo
+
+## Đã làm
+* Hoàn thiện cơ bản phần thực thể
 * Kết nối với cơ sở dữ liệu
 * Comment code
 * Sử dụng trình quản lý Git
+* Thêm, xóa cấu hình (lãi suất)
+* Thêm một vài người dùng trong hệ thống
+* Hoàn thiện cơ bản phần giao diện của hệ thống, đảm bảo những giao diện hiển thị hoạt động

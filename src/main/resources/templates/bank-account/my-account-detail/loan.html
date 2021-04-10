@@ -1,0 +1,48 @@
+<html layout:decorate="~{bank-account/layout.html}">
+  <div layout:fragment="main">
+      <div class="container">
+          <table class="table table-bordered">
+              <tr>
+                  <th th:text="#{table.head.bank-account}"></th>
+                  <td th:text="${account.id}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.bank-account.loan.amount}"></th>
+                  <td th:text="${account.balance}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.rate}"></th>
+                  <td th:text="${account.interest.rate}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.bank-account.loan.current-amount}"></th>
+                  <td th:text="${account.interest.rate * account.balance.balance}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.bank-account.currency}"></th>
+                    <td th:text="${account.balance.currency.name()}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.bank-account.loan.type}"></th>
+                  <td th:text="${account.interest.interestType}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.period}"></th>
+                  <td th:text="${account.period}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.bank-account.created-at}"></th>
+                  <td th:text="${#temporals.format(account.createdAt, 'dd-mm-yyyy')}"></td>
+              </tr>
+              <tr>
+                  <th th:text="#{table.head.bank-account.loan.next-pay-date}"></th>
+                  <td th:text="${#temporals.format(account.createdAt, 'dd-mm-yyyy')}"></td>
+              </tr>
+              <tr>
+                  <th th:text="${table.head.bank-account.loan.account-responsibility}"></th>
+                  <td th:text="${account.customer.fullname.getFullname}"></td>
+              </tr>
+          </table>
+      </div>
+  </div>
+</html>

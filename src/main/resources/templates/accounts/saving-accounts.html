@@ -1,0 +1,34 @@
+<html
+  layout:decorate="~{accounts/layout.html}"
+  th:with="title=#{navbar.nav-item.savings-accounts}, listTitleMessage=#{navbar.nav-item.savings-accounts},
+  accountListTitle=${#strings.toLowerCase(listTitleMessage)}"
+>
+  <div layout:fragment="main">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <th th:text="#{table.head.row-num}"></th>
+          <th th:text="#{table.head.bank-account.number}"></th>
+          <th th:text="#{table.head.bank-account.owner}"></th>
+          <th th:text="#{table.head.bank-account.savings.amount}"></th>
+          <th th:text="#{table.head.bank-account.currency}"></th>
+          <th th:text="#{table.head.period}"></th>
+          <th th:text="#{table.head.bank-account.created-at}"></th>
+        </thead>
+        <tbody>
+          <tr th:each="account,index : ${accounts}">
+            <td th:text="${index}"></td>
+            <td th:text="${account.id}"></td>
+            <td th:text="${account.customer.name}"></td>
+            <td th:text="${account.balance.balance}"></td>
+            <td th:text="${account.balance.currency.name()}"></td>
+            <td th:text="${account.interest.rate}"></td>
+            <td
+              th:text="${#dates.format(account.createdAt, 'dd-mm-yyyy')}"
+            ></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</html>

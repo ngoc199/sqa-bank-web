@@ -1,0 +1,38 @@
+<html
+  layout:decorate="~{config/layout.html}"
+  th:with="title=#{title.config.index}"
+>
+  <div layout:fragment="main">
+    <div class="text-end mb-4">
+      <a
+        th:href="@{/config/add}"
+        class="btn btn-primary"
+        th:text="#{button.interest.add}"
+        th:title="#{button.interest.add}"
+      ></a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          <th class="text-center" th:text="#{table.head.row-num}"></th>
+          <th class="text-center" th:text="#{table.head.rate}"></th>
+          <th class="text-center" th:text="#{table.head.period}"></th>
+          <th class="text-center" th:text="#{table.head.actions}"></th>
+        </tr>
+        <tr th:each="interest : ${interests}">
+          <td th:text="${interest.id}" class="text-end"></td>
+          <td th:text="${interest.rate}" class="text-end"></td>
+          <td th:text="${interest.period}" class="text-end"></td>
+          <td>
+            <a
+              th:href="@{/{id}/delete(id=${interest.id})}"
+              class="btn btn-danger"
+              th:text="#{button.delete}"
+              th:title="#{button.delete}"
+            ></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</html>

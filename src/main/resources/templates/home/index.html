@@ -1,7 +1,7 @@
-<html layout:decorate="~{home/layout.html}">
+<html layout:decorate="~{home/layout.html}" th:with="title=#{title.home}">
 <div layout:fragment="main">
     <div class="container">
-        <h1>Chào mừng đến với ngân hàng Dmbank</h1>
+        <h1 th:text="#{title.home.hero-heading}"></h1>
     </div>
 </div>
 </html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Define the directory for logs file -->
+    <property name="BASE_DIR" value="./logs" />
+
+    <!-- Define the loggers -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="LOGGIN_ERROR_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>${BASE_DIR}/loggin_error.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="BANK_ACCOUNT_UPDATE_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>${BASE_DIR}/bank_account_update.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="TRANSACTION_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>${BASE_DIR}/transaction.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="CONFIG_UDPATE_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>${BASE_DIR}/config_update.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.example.apps.special-package" level="info" additivity="false">
+        <appender-ref ref="BANK_ACCOUNT_UPDATE_LOG" />
+    </logger>
+    <logger name="com.example.apps.special-package" level="info" additivity="false">
+        <appender-ref ref="TRANSACTION_LOG" />
+    </logger>
+    <logger name="com.example.apps.special-package" level="info" additivity="false">
+        <appender-ref ref="CONFIG_UDPATE_LOG" />
+    </logger>
+    <logger name="com.example.apps.special-package" level="error">
+        <appender-ref ref="LOGGIN_ERROR_LOG" />
+    </logger>
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

@@ -1,0 +1,10 @@
+<html layout:decorate="~{layout.html}">
+  <div layout:fragment="content">
+    <div th:replace="includes/navbar :: navbar"></div>
+    <section class="container">
+      <h1 class="mb-4 text-center" th:text="${title}"></h1>
+      <div layout:fragment="main"></div>
+    </section>
+    <div th:replace="includes/footer :: footer"></div>
+  </div>
+</html>

@@ -1,0 +1,44 @@
+<html
+  layout:decorate="~{config/layout.html}"
+  th:with="title=#{title.config.add-interest}"
+>
+  <div layout:fragment="main">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+        <form th:action="@{/config/add}" method="post" th:object="${interest}">
+          <div class="mb-3">
+            <label for="rate" th:text="#{field.rate.name}" th:title="#{field.rate.name}"></label>
+            <input
+              class="form-control"
+              type="number"
+              step="0.001"
+              th:field="*{rate}"
+              required
+              autofocus
+            />
+            <span th:if="${#fields.hasErrors('rate')}" th:errors="*{rate}" class="fst-italic text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <label for="period" th:text="#{field.period.name}" th:title="#{field.period.name}"></label>
+            <input
+              class="form-control"
+              type="number"
+              step="1"
+              th:field="*{period}"
+              required
+            />
+            <span th:if="${#fields.hasErrors('period')}" th:errors="*{period}" class="fst-italic text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              th:text="#{button.add}"
+              th:title="#{button.add}"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</html>
