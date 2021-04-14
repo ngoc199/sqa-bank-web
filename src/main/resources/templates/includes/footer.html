@@ -1,5 +1,6 @@
 <footer th:fragment="footer" class="bg-secondary position-absolute bottom-0 w-100">
     <div class="container text-center">
-        <p class="m-0 p-3 text-white">&copy; <span th:text="#{meta.copyrights}"></span></p>
+        <p class="m-0 p-3 text-white">&copy; <span th:with="brand=#{brand.name}" th:text="#{meta.copyrights(${brand})}"></span></p>
+
     </div>
 </footer>

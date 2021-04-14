@@ -7,7 +7,9 @@ import javax.transaction.Transactional;
 import com.banking.banking.model.interest.Interest;
 import com.banking.banking.repository.interestRepo.InterestRepository;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +25,17 @@ public class InterestService {
      */
     public List<Interest> getAllInterests() {
         return interestRepo.findAll();
+    }
+
+    /**
+     * Get the interest by id
+     *
+     * @param interestId
+     * @return interest
+     * @exception ResponseStatusException
+     */
+    public Interest getInterestById(int interestId) {
+        return interestRepo.findById(interestId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     /**

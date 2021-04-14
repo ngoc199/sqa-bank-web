@@ -21,11 +21,17 @@
         </tr>
         <tr th:each="interest : ${interests}">
           <td th:text="${interest.id}" class="text-end"></td>
-          <td th:text="${interest.rate}" class="text-end"></td>
+          <td th:text="${interest.getRatePercentValue()}" class="text-end"></td>
           <td th:text="${interest.period}" class="text-end"></td>
-          <td>
+          <td class="text-end">
             <a
-              th:href="@{/{id}/delete(id=${interest.id})}"
+              th:href="@{/config/{id}/edit(id=${interest.id})}"
+              class="btn btn-success"
+              th:text="#{button.edit}"
+              th:title="#{button.edit}"
+            ></a>
+            <a
+              th:href="@{/config/{id}/delete(id=${interest.id})}"
               class="btn btn-danger"
               th:text="#{button.delete}"
               th:title="#{button.delete}"

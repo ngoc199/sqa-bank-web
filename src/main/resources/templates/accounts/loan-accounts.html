@@ -16,15 +16,15 @@
           <th th:text="#{table.head.bank-account.created-at}"></th>
         </thead>
         <tbody>
-          <tr th:each="account,index : ${accounts}">
+          <tr th:each="account,index : ${accounts.content}">
             <td th:text="${index}"></td>
             <td th:text="${account.id}"></td>
             <td th:text="${account.customer.name}"></td>
-            <td th:text="${account.balance.balance}"></td>
-            <td th:text="${account.balance.currency.name()}"></td>
-            <td th:text="${account.interest.rate}"></td>
+            <td th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"></td>
+            <td th:text="${account.currency.name()}"></td>
+            <td th:text="${account.rate}"></td>
             <td
-              th:text="${#dates.format(account.createdAt, 'dd-mm-yyyy')}"
+              th:text="${#temporals.format(account.createdAt, 'dd-mm-yyyy')}"
             ></td>
           </tr>
         </tbody>

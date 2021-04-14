@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 import com.banking.banking.model.bankaccount.BankAccount;
 import com.banking.banking.model.bankaccount.actions.IWithdrawable;
@@ -13,7 +14,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "savings_accounts")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 public abstract class SavingsAccount extends BankAccount implements IWithdrawable {

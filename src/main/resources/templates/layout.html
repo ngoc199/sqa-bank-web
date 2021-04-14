@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${title + ' - Dmbank'}"></title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <meta name="description" th:content="#{meta.description}">
-    <meta name="keywords" th:content="#{meta.keywords}">
-</head>
-<body>
+    <meta
+      name="description"
+      th:with="brand=#{brand.name}"
+      th:content="#{meta.description(${brand})}"
+    />
+    <meta
+      name="keywords"
+      th:with="brand=#{brand.name}"
+      th:content="#{meta.keywords(${brand})}"
+    />
+  </head>
+  <body>
     <div layout:fragment="content"></div>
     <script async th:src="@{/js/bootstrap.min.js}"></script>
-</body>
+  </body>
 </html>

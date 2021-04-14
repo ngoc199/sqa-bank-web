@@ -1,7 +1,58 @@
 <html layout:decorate="~{home/layout.html}" th:with="title=#{title.home}">
-<div layout:fragment="main">
-    <div class="container">
-        <h1 th:text="#{title.home.hero-heading}"></h1>
-    </div>
-</div>
+  <html layout:fragment="main">
+    <section id="hero" class="bg-primary">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start text-white py-5">
+            <h1
+              th:with="brand=#{brand.name}"
+              th:text="#{heading.home.hero(${brand})}"
+            ></h1>
+            <p
+              th:text="#{heading.home.hero.sub}"
+              sec:authorize="!isAuthenticated()"
+            ></p>
+            <p
+              th:text="#{heading.home.hero.sub-customer}"
+              sec:authorize="hasAuthority('my_account:read')"
+            ></p>
+            <p
+              th:text="#{heading.home.hero.sub-employee}"
+              sec:authorize="hasAuthority('accounts:read')"
+            ></p>
+            <a
+              th:href="@{/login}"
+              th:title="#{button.cta.login}"
+              th:text="#{button.cta.login}"
+              class="btn btn-dark"
+              sec:authorize="!isAuthenticated()"
+            ></a>
+            <a
+              th:href="@{/my-account}"
+              th:title="#{button.cta.my-account}"
+              th:text="#{button.cta.my-account}"
+              class="btn btn-dark"
+              sec:authorize="hasAuthority('my_account:read')"
+            ></a>
+            <a
+              th:href="@{/accounts}"
+              th:title="#{button.cta.accounts}"
+              th:text="#{button.cta.accounts}"
+              class="btn btn-dark"
+              sec:authorize="hasAuthority('accounts:read')"
+            ></a>
+          </div>
+          <div class="col-md-6">
+            <picture>
+              <img
+                class="img-fluid img-fit-container"
+                th:src="@{images/woman-with-credit-card.png}"
+                th:alt="#{heading.home.hero(${brand})}"
+                th:title="#{heading.home.hero(${brand})}"
+            /></picture>
+          </div>
+        </div>
+      </div>
+    </section>
+  </html>
 </html>

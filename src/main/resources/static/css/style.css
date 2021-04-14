@@ -23,3 +23,17 @@
     font-size: 1.3rem;
     font-weight: bold;
 }
+
+/* Navbar */
+nav .nav-link.active {
+    color: var(--bs-primary)!important;
+    font-weight: bold;
+}
+
+/* Image */
+.img-fit-container {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: left;
+}

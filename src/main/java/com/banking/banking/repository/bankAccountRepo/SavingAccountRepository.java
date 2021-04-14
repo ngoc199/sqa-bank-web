@@ -5,10 +5,11 @@ import java.util.List;
 import com.banking.banking.model.bankaccount.savingsAccount.SavingsAccount;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SavingAccountRepository extends JpaRepository<SavingsAccount, String> {
+public interface SavingAccountRepository extends JpaRepository<SavingsAccount, String>, JpaSpecificationExecutor<SavingsAccount> {
 
     public List<SavingsAccount> findByCustomer_Id(String customerId);
 }

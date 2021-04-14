@@ -12,9 +12,7 @@
 ## Lưu ý
 Phần mềm chưa được hoàn thành:
 * Phần giao diện còn sơ sài, chưa được đẹp
-* Chưa làm phần sửa cấu hình
 * Chưa làm phần tính lãi vay
-* Chưa có phần xuất báo cáo
 
 ## Đã làm
 * Hoàn thiện cơ bản phần thực thể
@@ -24,3 +22,5 @@ Phần mềm chưa được hoàn thành:
 * Thêm, xóa cấu hình (lãi suất)
 * Thêm một vài người dùng trong hệ thống
 * Hoàn thiện cơ bản phần giao diện của hệ thống, đảm bảo những giao diện hiển thị hoạt động
+* Đã có phần sửa cấu hình
+* Đã có phần báo cáo, lọc tài khoản trong danh sách

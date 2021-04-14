@@ -3,11 +3,109 @@
     <div th:replace="includes/navbar :: navbar"></div>
     <div>
       <div class="container">
-        <h1 class="text-center" th:text="#{heading.accounts(${accountListTitle})}"></h1>
-        <div th:replace="accounts/includes/navbar :: navbar"></div>
-        <div layout:fragment="main"></div>
+        <h1
+          class="text-center mb-4"
+          th:text="#{heading.accounts(${accountListTitle})}"
+        ></h1>
+        <div class="row">
+          <div class="col-12" th:if="${errorMessageCategory != null}">
+            <div
+              class="alert alert-dismissible fade show"
+              th:classappend="${'alert-' + errorMessageCategory}"
+              role="alert"
+            >
+            <span th:text="#{bank-account.search.failed.begin-after-end}"></span>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <form action="" method="GET" onsubmit="formUpdateParams(event);">
+              <div class="mb-3">
+                <label
+                  for="owner_name"
+                  th:text="#{form.fields.customer-name}"
+                ></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:placeholder="#{form.fields.customer-name}"
+                  name="owner_name"
+                  id="owner_name"
+                  th:value="${param.owner_name}"
+                />
+              </div>
+              <div class="mb-3">
+                <label
+                  for="begin_date"
+                  th:text="#{form.fields.begin-date}"
+                ></label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="begin_date"
+                  id="begin_date"
+                  th:placeholder="#{form.fields.begin-date}"
+                  th:value="${param.begin_date}"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="end-date" th:text="#{form.fields.end-date}"></label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="end_date"
+                  id="end_date"
+                  th:placeholder="#{form.fields.end-date}"
+                  th:value="${param.end_date}"
+                />
+              </div>
+              <div class="mb-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary form-control"
+                  th:text="#{button.search}"
+                  th:title="#{button.search}"
+                ></button>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-8">
+            <div th:replace="accounts/includes/navbar :: navbar"></div>
+            <div layout:fragment="main"></div>
+            <div
+              th:if="${#lists.isEmpty(accounts.content)}"
+              th:text="#{bank-account.list.empty}"
+              class="text-center fs-italic"
+            ></div>
+            <nav
+              aria-label="bank accounts pagination"
+              th:if="${accounts.totalPages > 0}"
+            >
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  th:each="pageNumber : ${accounts.totalPages}"
+                >
+                  <a
+                    href="#"
+                    class="page-link"
+                    th:classappend="${pageNumber == accounts.number + 1} ? 'active' : ''"
+                    th:text="${pageNumber}"
+                    th:title="${pageNumber}"
+                  ></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
       </div>
     </div>
     <div th:replace="includes/footer :: footer"></div>
+    <script th:src="@{/js/filter.js}"></script>
   </div>
 </html>

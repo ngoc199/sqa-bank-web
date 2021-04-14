@@ -33,7 +33,12 @@ public class Interest {
     @Max(value = 730, message = "{validation.period.max}")
     private int period; // Calculated by days
 
-    public float getRate() {
+    /**
+     * Get the percent value of the rate
+     *
+     * @return rateInPercentValue
+     */
+    public float getRatePercentValue() {
         return rate * 100;
     }
 

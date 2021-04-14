@@ -1,6 +1,8 @@
 package com.banking.banking.controller.bankAccountController;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,9 @@ import com.banking.banking.service.bankAccountService.LoanAccountService;
 import com.banking.banking.service.bankAccountService.SavingsAccountService;
 import com.banking.banking.service.customerService.CustomerService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 
@@ -90,21 +96,34 @@ public class BankAccountController {
      */
     @GetMapping("accounts")
     @PreAuthorize("hasAuthority('accounts:read')")
-    public String accounts(@RequestParam(name = "type", defaultValue = "null", required = false) String type,
-            Model model, @RequestParam(name = "page", defaultValue = "1", required = false) int page,
+    public String accounts(@RequestParam(name = "owner_name", required = false) String ownerName,
+            @RequestParam(name = "begin_date", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate begin,
+            @RequestParam(name = "end_date", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate end,
+            @RequestParam(name = "type", defaultValue = "", required = false) String type, Model model,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
-            HttpServletRequest request) {
-        page = (page < 1) ? 1 : page; // Page must be greater or equal to 1
+            @RequestParam Map<String, String> params, HttpServletRequest request,
+            RedirectAttributes redirectAttributes) {
+        page = (page < 0) ? 0 : page; // Page must be greater or equal to 0, because page is counted from 0
         size = (size < 10 || size > 100) ? 10 : size; // Size must be greater or equal to 10 and lower or equal to 100
+
+        // Check if the begin date is after the end date
+        if (begin != null && end != null && begin.isAfter(end)) {
+            redirectAttributes.addFlashAttribute("errorMessageCategory", "danger");
+
+            // Reserve the current request "type" parameter and redirect to the current url
+            return "redirect:" + request.getRequestURI() + "?type=" + request.getParameter("type");
+        }
 
         switch (type) {
         case "loan":
-            List<LoanAccount> loanAccounts = loanAccountService.getLoanAccountList(page, size);
+            Page<LoanAccount> loanAccounts = loanAccountService.getLoanAccountList(ownerName, begin, end, page, size);
             model.addAttribute("accounts", loanAccounts);
             return "accounts/loan-accounts.html";
         case "savings":
-            List<SavingsAccount> savingAccounts = savingsAccountService.getSavingAccountList(page, size);
-            model.addAttribute("accounts", savingAccounts);
+            Page<SavingsAccount> savingAccountsPage = savingsAccountService.getSavingsAccountList(ownerName, begin, end,
+                    page, size);
+            model.addAttribute("accounts", savingAccountsPage);
             return "accounts/saving-accounts.html";
         default: // Display list of saving accounts by default
             return "redirect:" + request.getRequestURI() + "?type=savings";

@@ -6,8 +6,9 @@
     <a
       href="/"
       class="navbar-brand"
-      th:text="#{navbar.logo}"
-      th:title="#{navbar.logo}"
+      th:with="brand=#{brand.name}"
+      th:text="#{navbar.logo(${brand})}"
+      th:title="#{navbar.logo(${brand})}"
     ></a>
     <button
       class="navbar-toggler"
@@ -28,12 +29,14 @@
             class="nav-link"
             th:classappend="${#strings.contains(#request.requestURI, 'my-account') ? 'active' : ''}"
             th:text="#{navbar.nav-item.my-account}"
+            th:title="#{navbar.nav-item.my-account}"
           ></a>
         </li>
         <li class="nav-item" sec:authorize="hasAuthority('accounts:read')">
           <a
             class="nav-link"
             th:href="@{/accounts}"
+            th:classappend="${#strings.contains(#request.requestURI, 'accounts') ? 'active' : ''}"
             th:text="#{navbar.nav-item.bank-accounts}"
             th:title="#{navbar.nav-item.bank-accounts}"
           ></a>
@@ -42,6 +45,7 @@
           <a
             th:href="@{/config}"
             class="nav-link"
+            th:classappend="${#strings.contains(#request.requestURI, 'config') ? 'active' : ''}"
             th:text="#{navbar.nav-item.config}"
             th:title="#{navbar.nav-item.config}"
           ></a>
@@ -57,7 +61,7 @@
         <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
           <a
             th:href="@{/my-account}"
-            class="nav-link dropdown-toggle text-primary"
+            class="nav-link dropdown-toggle text-success"
             id="userDropdown"
             role="button"
             data-bs-toggle="dropdown"

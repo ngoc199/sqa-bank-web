@@ -1,6 +1,7 @@
 package com.banking.banking.model.bankaccount;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
 
 import com.banking.banking.model.user.customer.Customer;
 
@@ -22,13 +24,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 public abstract class BankAccount {
     @Id
     private String id;
 
+    @Digits(integer = 19, fraction = 0)
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
@@ -43,5 +46,9 @@ public abstract class BankAccount {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public BigDecimal getBalance() {
+        return balance.setScale(0, RoundingMode.DOWN);
+    }
 
 }

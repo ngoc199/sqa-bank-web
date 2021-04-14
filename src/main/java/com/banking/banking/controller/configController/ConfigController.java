@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -69,6 +70,54 @@ public class ConfigController {
         if (!result) {
             return "redirect:/add";
         }
+        return "redirect:/config?success";
+    }
+
+    /**
+     * Edit interest view
+     *
+     * @param model
+     * @return addInterestView
+     */
+    @GetMapping("/{id}/edit")
+    @PreAuthorize("hasAuthority('config:write')")
+    public String editInterestDisplay(Model model, @PathVariable("id") int id) {
+        Interest interest = interestService.getInterestById(id);
+        model.addAttribute("interest", interest);
+        return "config/edit-interest.html";
+    }
+
+    /**
+     * Update the interest
+     *
+     * @param id
+     * @param updatedInterest
+     * @return configIndexView
+     */
+    @PostMapping("/{id}/edit")
+    @PreAuthorize("hasAuthority('config:write')")
+    public String updateInterest(@PathVariable("id") int id,
+            @ModelAttribute("interest") @Valid Interest updatedInterest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "config/edit-interest.html";
+        }
+        boolean result = interestService.updateInterest(updatedInterest);
+        if (!result) {
+            return "redirect:/config/" + id + "/edit";
+        }
+        return "redirect:/config?success";
+    }
+
+    /**
+     * Delete interest by id
+     *
+     * @param id
+     * @return configIndexView
+     */
+    @GetMapping("/{id}/delete")
+    @PreAuthorize("hasAuthority('config:write')")
+    public String deleteInterest(@PathVariable("id") int id) {
+        interestService.deleteInterest(id);
         return "redirect:/config?success";
     }
 }
