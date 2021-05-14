@@ -30,20 +30,27 @@ public class AccrualSavingsAccount extends SavingsAccount implements IDepositabl
 
     @Override
     public void withdrawAll() {
-        // TODO Auto-generated method stub
+        // Not supported
 
     }
 
     @Override
-    protected BigDecimal getCurrentSavingsInterestAmount() {
-        // Get the rate in month and round it down to 2 precisions (if necessary)
-        BigDecimal rate = BigDecimal.valueOf(this.getRate()).divide(BigDecimal.valueOf(Constants.A_MONTH)).setScale(2,
+    public BigDecimal getCurrentSavingsInterestAmount() {
+        if (!isValidAccount()) {
+            return BigDecimal.valueOf(0);
+        }
+
+        // Get the rate in month and round it down to 3 precisions (if necessary)
+        BigDecimal rate = BigDecimal.valueOf(this.getRate()).divide(BigDecimal.valueOf(Constants.A_MONTH)).setScale(3,
                 RoundingMode.FLOOR);
 
         // Calculate the saved days
         LocalDateTime createdAt = this.getCreatedAt();
         LocalDateTime today = LocalDateTime.now();
-        long savedDays = ChronoUnit.DAYS.between(today, createdAt);
+        long savedDays = ChronoUnit.DAYS.between(createdAt, today);
+        if (savedDays <= 0) {
+            return BigDecimal.valueOf(0);
+        }
 
         // Calculate the total of this month
         BigDecimal q = rate.add(BigDecimal.valueOf(1));
@@ -53,7 +60,7 @@ public class AccrualSavingsAccount extends SavingsAccount implements IDepositabl
 
         // Calculate the current interest amount using the formula
         // totalAmount / period (days) * savedDays
-        BigDecimal interestAmount = totalAmount.divide(BigDecimal.valueOf(this.getPeriod()))
+        BigDecimal interestAmount = totalAmount.divide(BigDecimal.valueOf(this.getPeriod()), 0, RoundingMode.FLOOR)
                 .multiply(BigDecimal.valueOf(savedDays));
 
         return interestAmount;

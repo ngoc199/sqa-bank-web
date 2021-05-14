@@ -10,9 +10,16 @@ import javax.persistence.Table;
 
 import com.banking.banking.common.Constants;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "fixed_savings_accounts")
+@Getter
+@Setter
 public class FixedSavingsAccount extends SavingsAccount {
+
+    private float lowestRate;
 
     @Override
     public void withdraw(BigDecimal amount) {
@@ -22,26 +29,50 @@ public class FixedSavingsAccount extends SavingsAccount {
 
     @Override
     public void withdrawAll() {
-        // TODO Auto-generated method stub
+        // Not supported
 
     }
 
     @Override
-    protected BigDecimal getCurrentSavingsInterestAmount() {
+    public BigDecimal getCurrentSavingsInterestAmount() {
+        if (!isValidAccount()) {
+            return BigDecimal.valueOf(0);
+        }
         BigDecimal balance = this.getBalance();
 
-        // Get the rate and round it down to 2 precisions (if necessary)
-        BigDecimal rate = BigDecimal.valueOf(this.getRate()).setScale(2, RoundingMode.FLOOR);
+        // Get the rate and round it down to 3 precisions (if necessary)
+        BigDecimal rate = BigDecimal.valueOf(this.getRate()).setScale(3, RoundingMode.FLOOR);
+        BigDecimal lowestRateDecimal = BigDecimal.valueOf(this.lowestRate).setScale(3, RoundingMode.FLOOR);
 
         // Calculate the saved days
         LocalDateTime createdAt = this.getCreatedAt();
         LocalDateTime today = LocalDateTime.now();
-        long savedDays = ChronoUnit.DAYS.between(today, createdAt);
+        long savedDays = ChronoUnit.DAYS.between(createdAt, today);
+        if (savedDays <= 0) {
+            return BigDecimal.valueOf(0);
+        }
 
-        // Calculate the current interest amount using the formula
-        // balance * rate * savedDays / a_year
-        BigDecimal interestAmount = balance.multiply(rate).multiply(BigDecimal.valueOf(savedDays))
-                .divide(BigDecimal.valueOf(Constants.A_YEAR).setScale(0, RoundingMode.FLOOR));
+        BigDecimal interestAmount;
+        if (savedDays > this.getPeriod()) {
+            // Calculate the current interest amount using the formula
+            // balance * (rate * (savedDays // period * period) + lowestRate * (savedDays %
+            // period)) / a_year - balance
+            interestAmount = balance
+                    .multiply(rate
+                            .multiply(BigDecimal.valueOf(savedDays)
+                                    .divide(BigDecimal.valueOf(this.getPeriod()), 0, RoundingMode.FLOOR)
+                                    .multiply(BigDecimal.valueOf(this.getPeriod())))
+                            .add(lowestRateDecimal.multiply(
+                                    BigDecimal.valueOf(savedDays).remainder(BigDecimal.valueOf(this.getPeriod())))))
+                    .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.FLOOR).subtract(balance);
+
+        } else {
+            // Calculate the current interest amount using the formula
+            // balance * rate * savedDays / a_year - balance
+            interestAmount = balance.multiply(rate).multiply(BigDecimal.valueOf(savedDays))
+                    .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.FLOOR).subtract(balance);
+
+        }
 
         return interestAmount;
     }

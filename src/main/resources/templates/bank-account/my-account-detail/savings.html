@@ -1,48 +1,60 @@
-<html layout:decorate="~{bank-account/layout.html}">
+<html
+  layout:decorate="~{bank-account/layout.html}"
+  th:with="title=${'Tài khoản của ' + #authentication.getPrincipal().getUsername()}"
+>
   <div layout:fragment="main">
-      <div class="container">
-          <table class="table table-bordered">
-              <tr>
-                  <th th:text="#{table.head.bank-account}"></th>
-                  <td th:text="${account.id}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.savings.amount}"></th>
-                  <td th:text="${account.balance}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.rate}"></th>
-                  <td th:text="${account.rate}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.savings.current-amount}"></th>
-                  <td th:text="${account.getCurrentSavingsInterestAmount()}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.currency}"></th>
-                    <td th:text="${account.currency.name()}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.savings.type}"></th>
-                  <td th:text="${}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.period}"></th>
-                  <td th:text="${account.period}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.created-at}"></th>
-                  <td th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy')}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.savings.payout-date}"></th>
-                  <td th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy')}"></td>
-              </tr>
-              <tr>
-                  <th th:text="#{table.head.bank-account.savings.account-responsibility}"></th>
-                  <td th:text="${account.customer.fullname.getFullname}"></td>
-              </tr>
-          </table>
-      </div>
+    <div class="container">
+      <table class="table table-bordered">
+        <tr>
+          <th th:text="#{table.head.bank-account}"></th>
+          <td th:text="${account.id}"></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.bank-account.savings.amount}"></th>
+          <td
+            th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"
+          ></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.rate}"></th>
+          <td th:text="${account.rate}"></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.bank-account.savings.current-amount}"></th>
+          <td
+            th:text="${#numbers.formatDecimal(account.getCurrentSavingsInterestAmount(), account.getCurrentSavingsInterestAmount().precision(), 'DEFAULT', account.getCurrentSavingsInterestAmount().scale(), 'DEFAULT')}"
+          ></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.bank-account.currency}"></th>
+          <td th:text="${account.currency.name()}"></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.bank-account.savings.type}"></th>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.period}"></th>
+          <td th:text="${account.period}"></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.bank-account.created-at}"></th>
+          <td
+            th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy')}"
+          ></td>
+        </tr>
+        <tr>
+          <th th:text="#{table.head.bank-account.savings.payout-date}"></th>
+          <td
+            th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy')}"
+          ></td>
+        </tr>
+        <tr>
+          <th
+            th:text="#{table.head.bank-account.savings.account-responsibility}"
+          ></th>
+          <td th:text="${account.customer.fullname.getFullname}"></td>
+        </tr>
+      </table>
+    </div>
   </div>
 </html>

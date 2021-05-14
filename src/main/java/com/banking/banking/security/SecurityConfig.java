@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 // Config the login form
                 .and().formLogin().loginPage("/login").loginProcessingUrl("/login").usernameParameter("username")
-                .passwordParameter("password").defaultSuccessUrl("/").failureUrl("/login?error").permitAll().and()
+                .passwordParameter("password").successForwardUrl("/").defaultSuccessUrl("/").failureUrl("/login?error").permitAll().and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll();
     }
 

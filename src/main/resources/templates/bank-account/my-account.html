@@ -1,4 +1,7 @@
-<html layout:decorate="~{bank-account/layout.html}" th:with="title=${'Tài khoản của ' + #authentication.getPrincipal().getUsername()}">
+<html
+  layout:decorate="~{bank-account/layout.html}"
+  th:with="title=${'Tài khoản của ' + #authentication.getPrincipal().getUsername()}"
+>
   <div layout:fragment="main">
     <div class="container">
       <div class="row">
@@ -7,9 +10,7 @@
 
           <!-- Saving Accounts -->
           <div class="mb-4">
-            <div
-              th:if="${savingsAccounts != null}"
-            >
+            <div th:if="${savingsAccounts != null}">
               <button
                 class="btn btn-secondary w-100 d-flex justify-content-between"
                 th:disabled="${#lists.isEmpty(savingsAccounts)}"
@@ -29,15 +30,22 @@
                 class="collapse border rounded-bottom p-3"
                 th:classappend="${#lists.isEmpty(savingsAccounts) ? '' : 'show'}"
               >
-                <div th:each="account : ${savingsAccounts}" class="row account-details">
+                <div
+                  th:each="account : ${savingsAccounts}"
+                  class="row account-details"
+                >
                   <!-- Info -->
                   <div class="col-md-6">
                     <label th:text="#{field.bank-account.name}"></label>
-                    <a th:href="@{/my-account/{id}(id=${account.id}, type='saving')}" th:text="${account.id}"></a>
+                    <a
+                      class="d-block"
+                      th:href="@{/my-account/{id}(id=${account.id}, type='saving')}"
+                      th:text="${account.id}"
+                    ></a>
                   </div>
                   <div class="col-md-6">
                     <label th:text="#{table.head.rate}"></label>
-                    <p th:text="${account.rate}"></p>
+                    <p th:text="${account.getRatePercentValue()}"></p>
                   </div>
                   <!-- Info -->
                   <div class="col-md-6">
@@ -46,8 +54,12 @@
                   </div>
                   <!-- Info -->
                   <div class="col-md-6">
-                    <label th:text="#{field.bank-account.savings.money}"></label>
-                    <p th:text="${account.balance}"></p>
+                    <label
+                      th:text="#{field.bank-account.savings.money}"
+                    ></label>
+                    <p
+                      th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"
+                    ></p>
                   </div>
                   <!-- Info -->
                   <div class="col-md-6">
@@ -61,9 +73,7 @@
 
           <!-- Loan Accounts -->
           <div class="mb-4">
-            <div
-              th:if="${loanAccounts != null}"
-            >
+            <div th:if="${loanAccounts != null}">
               <button
                 class="btn btn-secondary w-100 d-flex justify-content-between"
                 th:disabled="${#lists.isEmpty(loanAccounts)}"
@@ -73,29 +83,39 @@
                 aria-controls="loan-accounts-collapse"
                 th:title="#{navbar.nav-item.loan-accounts}"
               >
-              <span th:text="#{navbar.nav-item.loan-accounts}"></span>
-              <span th:text="${'(' + #lists.size(loanAccounts) + ')'}"></span>
-            </button>
+                <span th:text="#{navbar.nav-item.loan-accounts}"></span>
+                <span th:text="${'(' + #lists.size(loanAccounts) + ')'}"></span>
+              </button>
               <div
                 id="loan-accounts"
                 class="collapse border rounded-bottom"
                 th:classappend="${#lists.isEmpty(savingsAccounts) ? '' : 'show'}"
               >
-                <div class="row account-details" th:each="account : ${loanAccounts}" th:if="${!#lists.isEmpty(loanAccounts)}">
+                <div
+                  class="row account-details"
+                  th:each="account : ${loanAccounts}"
+                  th:if="${!#lists.isEmpty(loanAccounts)}"
+                >
                   <!-- Info -->
                   <div class="col-md-6">
                     <label th:text="#{field.bank-account.name}"></label>
-                    <p th:text="${account.id}"></p>
+                    <a
+                      class="d-block"
+                      th:href="@{/my-account/{id}(id=${account.id}, type='loan')}"
+                      th:text="${account.id}"
+                    ></a>
                   </div>
                   <!-- Info -->
                   <div class="col-md-6">
                     <label th:text="#{table.head.rate}"></label>
-                    <p th:text="${account.rate}"></p>
+                    <p th:text="${account.getRatePercentValue()}"></p>
                   </div>
                   <!-- Info -->
                   <div class="col-md-6">
                     <label th:text="#{field.bank-account.loan.money}"></label>
-                    <p th:text="${account.balance}"></p>
+                    <p
+                      th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"
+                    ></p>
                   </div>
                   <!-- Info -->
                   <div class="col-md-6">

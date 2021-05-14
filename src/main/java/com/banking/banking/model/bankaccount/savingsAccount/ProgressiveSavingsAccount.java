@@ -20,12 +20,12 @@ public class ProgressiveSavingsAccount extends SavingsAccount {
 
     @Override
     public void withdrawAll() {
-        // TODO Auto-generated method stub
+        // Not supported
 
     }
 
     @Override
-    protected BigDecimal getCurrentSavingsInterestAmount() {
+    public BigDecimal getCurrentSavingsInterestAmount() {
         BigDecimal balance = this.getBalance();
 
         // Get the rate and round it down to 2 precisions (if necessary)
@@ -34,7 +34,7 @@ public class ProgressiveSavingsAccount extends SavingsAccount {
         // Calculate the saved days
         LocalDateTime createdAt = this.getCreatedAt();
         LocalDateTime today = LocalDateTime.now();
-        long savedDays = ChronoUnit.DAYS.between(today, createdAt);
+        long savedDays = ChronoUnit.DAYS.between(createdAt, today);
 
         // Calculate the total of this month
         BigDecimal q = rate.add(BigDecimal.valueOf(1));

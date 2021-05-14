@@ -29,6 +29,27 @@ public abstract class SavingsAccount extends BankAccount implements IWithdrawabl
      *
      * @return savingsAmountInterest
      */
-    protected abstract BigDecimal getCurrentSavingsInterestAmount();
+    public abstract BigDecimal getCurrentSavingsInterestAmount();
+
+    /**
+     * Get the percent value of the rate
+     *
+     * @return rateInPercentValue
+     */
+    public float getRatePercentValue() {
+        return rate * 100;
+    }
+
+    /**
+     * Check if the account's balance and rate are valid
+     * @return isValid
+     */
+    protected boolean isValidAccount() {
+
+        // The balance must be greater than 0
+        // And the rate must be in [0.001,0.5]
+        // And the period must be greater than 0
+        return !(getBalance().compareTo(BigDecimal.valueOf(0)) < 1 || rate < 0.001 || rate > 0.5 || period <= 0);
+    }
 
 }
