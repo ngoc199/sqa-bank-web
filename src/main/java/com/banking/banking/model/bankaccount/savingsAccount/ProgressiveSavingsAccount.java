@@ -26,15 +26,21 @@ public class ProgressiveSavingsAccount extends SavingsAccount {
 
     @Override
     public BigDecimal getCurrentSavingsInterestAmount() {
+        if (!isValidAccount()) {
+            return BigDecimal.valueOf(0);
+        }
         BigDecimal balance = this.getBalance();
 
-        // Get the rate and round it down to 2 precisions (if necessary)
-        BigDecimal rate = BigDecimal.valueOf(this.getRate()).setScale(2, RoundingMode.FLOOR);
+        // Get the rate
+        BigDecimal rate = BigDecimal.valueOf(this.getRate());
 
         // Calculate the saved days
         LocalDateTime createdAt = this.getCreatedAt();
         LocalDateTime today = LocalDateTime.now();
         long savedDays = ChronoUnit.DAYS.between(createdAt, today);
+        if (savedDays <= 0) {
+            return BigDecimal.valueOf(0);
+        }
 
         // Calculate the total of this month
         BigDecimal q = rate.add(BigDecimal.valueOf(1));
@@ -42,7 +48,7 @@ public class ProgressiveSavingsAccount extends SavingsAccount {
 
         // Calculate the current interest amount using the formula
         // totalAmount - balance
-        BigDecimal interestAmount = totalAmount.subtract(balance);
+        BigDecimal interestAmount = totalAmount.subtract(balance).setScale(0, RoundingMode.HALF_DOWN);
         return interestAmount;
     }
 

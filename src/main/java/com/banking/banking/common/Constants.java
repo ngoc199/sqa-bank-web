@@ -9,4 +9,5 @@ public class Constants {
     public static final int PAGE_SIZE = 10;
     public static final long A_YEAR = 365;
     public static final long A_MONTH = 30;
+    public static final long NUM_MONTHS_IN_YEAR = 12;
 }

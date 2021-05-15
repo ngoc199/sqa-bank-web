@@ -40,8 +40,8 @@ public class FixedSavingsAccount extends SavingsAccount {
         }
         BigDecimal balance = this.getBalance();
 
-        // Get the rate and round it down to 3 precisions (if necessary)
-        BigDecimal rate = BigDecimal.valueOf(this.getRate()).setScale(3, RoundingMode.FLOOR);
+        // Get the rate
+        BigDecimal rate = BigDecimal.valueOf(this.getRate());
         BigDecimal lowestRateDecimal = BigDecimal.valueOf(this.lowestRate).setScale(3, RoundingMode.FLOOR);
 
         // Calculate the saved days
@@ -56,7 +56,7 @@ public class FixedSavingsAccount extends SavingsAccount {
         if (savedDays > this.getPeriod()) {
             // Calculate the current interest amount using the formula
             // balance * (rate * (savedDays // period * period) + lowestRate * (savedDays %
-            // period)) / a_year - balance
+            // period)) / a_year
             interestAmount = balance
                     .multiply(rate
                             .multiply(BigDecimal.valueOf(savedDays)
@@ -64,13 +64,13 @@ public class FixedSavingsAccount extends SavingsAccount {
                                     .multiply(BigDecimal.valueOf(this.getPeriod())))
                             .add(lowestRateDecimal.multiply(
                                     BigDecimal.valueOf(savedDays).remainder(BigDecimal.valueOf(this.getPeriod())))))
-                    .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.FLOOR).subtract(balance);
+                    .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.HALF_DOWN);
 
         } else {
             // Calculate the current interest amount using the formula
-            // balance * rate * savedDays / a_year - balance
+            // balance * rate * savedDays / a_year
             interestAmount = balance.multiply(rate).multiply(BigDecimal.valueOf(savedDays))
-                    .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.FLOOR).subtract(balance);
+                    .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.HALF_DOWN);
 
         }
 

@@ -39,8 +39,8 @@ public class CorroborateSavingsAccount extends SavingsAccount {
 
         BigDecimal balance = this.getBalance();
 
-        // Get the rate and round it down to 3 precisions (if necessary)
-        BigDecimal rate = BigDecimal.valueOf(this.getRate()).setScale(3, RoundingMode.FLOOR);
+        // Get the rate
+        BigDecimal rate = BigDecimal.valueOf(this.getRate());
 
         // Calculate the saved days
         LocalDateTime createdAt = this.getCreatedAt();
@@ -53,7 +53,7 @@ public class CorroborateSavingsAccount extends SavingsAccount {
         // Calculate the current interest amount using the formula
         // balance * rate * savedDays / a_year
         BigDecimal interestAmount = balance.multiply(rate).multiply(BigDecimal.valueOf(savedDays))
-                .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.FLOOR).subtract(balance);
+                .divide(BigDecimal.valueOf(Constants.A_YEAR), 0, RoundingMode.HALF_DOWN);
 
         return interestAmount;
     }
