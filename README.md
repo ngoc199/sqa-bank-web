@@ -9,17 +9,13 @@
 |3|employee2|password|EMPLOYEE_ACCOUNTANT|
 |4|employee3|password|EMPLOYEE_MANAGER|
 
-## Lưu ý
-Phần mềm chưa được hoàn thành:
-* Phần giao diện còn sơ sài, chưa được đẹp
-* Chưa làm phần tính lãi vay
-
 ## Đã làm
 * Hoàn thiện cơ bản phần thực thể
 * Kết nối với cơ sở dữ liệu
 * Comment code
 * Sử dụng trình quản lý Git
 * Thêm, xóa cấu hình (lãi suất)
+* Tính lãi vay, tính lãi tiết kiệm
 * Thêm một vài người dùng trong hệ thống
 * Hoàn thiện cơ bản phần giao diện của hệ thống, đảm bảo những giao diện hiển thị hoạt động
 * Đã có phần sửa cấu hình
