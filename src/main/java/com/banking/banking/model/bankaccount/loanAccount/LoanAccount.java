@@ -20,15 +20,30 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class LoanAccount extends BankAccount implements IDepositable {
-    private int period; // calculated by days
+    private float rate;
 
     private BigDecimal moneyPay;
 
-    // Can't track the payment with this
-    // Need to create a new class to track the payment
     private LocalDate nextPayDate;
     private LocalDate realPayDate;
     private LocalDate payDeadline;
     private int deadlineModifiedCounter;
+
+    /**
+     * Calculate the current month paying amount
+     * @return currentPayingAmount
+     */
+    public abstract BigDecimal getCurrentPayingAmount();
+
+    /**
+     * Check if the account's balance and rate are valid
+     * @return isValid
+     */
+    protected boolean isValidAccount() {
+
+        // The balance must be greater than 0
+        // And the rate must be in [0.001,0.5]
+        return !(getBalance().compareTo(BigDecimal.valueOf(0)) < 1 || rate < 0.001 || rate > 0.5);
+    }
 
 }

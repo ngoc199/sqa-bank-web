@@ -1,6 +1,6 @@
 package com.banking.banking.model.bankaccount.savingsAccount;
 
-import static com.banking.banking.model.bankaccount.savingsAccount.TestConstants.*;
+import static com.banking.banking.model.bankaccount.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;

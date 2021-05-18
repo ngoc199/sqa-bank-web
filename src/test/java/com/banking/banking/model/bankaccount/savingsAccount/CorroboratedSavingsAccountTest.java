@@ -1,5 +1,6 @@
 package com.banking.banking.model.bankaccount.savingsAccount;
 
+import static com.banking.banking.model.bankaccount.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
@@ -7,8 +8,6 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static com.banking.banking.model.bankaccount.savingsAccount.TestConstants.*;
 
 public class CorroboratedSavingsAccountTest {
     private CorroborateSavingsAccount account;

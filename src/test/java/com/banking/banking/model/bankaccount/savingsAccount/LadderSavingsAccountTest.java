@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.banking.banking.model.bankaccount.savingsAccount.TestConstants.*;
+import static com.banking.banking.model.bankaccount.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LadderSavingsAccountTest {
