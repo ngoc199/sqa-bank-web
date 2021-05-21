@@ -19,8 +19,8 @@
           <th class="text-center" th:text="#{table.head.period}"></th>
           <th class="text-center" th:text="#{table.head.actions}"></th>
         </tr>
-        <tr th:each="interest : ${interests}">
-          <td th:text="${interest.id}" class="text-end"></td>
+        <tr th:each="interest,iter : ${interests}">
+          <td th:text="${iter.count}" class="text-end"></td>
           <td th:text="${interest.getRatePercentValue()}" class="text-end"></td>
           <td th:text="${interest.period}" class="text-end"></td>
           <td class="text-end">
