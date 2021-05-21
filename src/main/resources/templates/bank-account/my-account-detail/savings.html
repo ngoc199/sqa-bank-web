@@ -1,6 +1,6 @@
 <html
   layout:decorate="~{bank-account/layout.html}"
-  th:with="title=${'Tài khoản của ' + #authentication.getPrincipal().getUsername()}"
+  th:with="title=${'Tài khoản của ' + account.customer.fullname.getFullname()}"
 >
   <div layout:fragment="main">
     <div class="container">
@@ -31,6 +31,7 @@
         </tr>
         <tr>
           <th th:text="#{table.head.bank-account.savings.type}"></th>
+          <td th:text="${account.getType()}"></td>
         </tr>
         <tr>
           <th th:text="#{table.head.period}"></th>
@@ -42,10 +43,10 @@
             th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy')}"
           ></td>
         </tr>
-        <tr>
+        <tr th:if="${account.getDepositDate() != null}">
           <th th:text="#{table.head.bank-account.savings.payout-date}"></th>
           <td
-            th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy')}"
+            th:text="${#temporals.format(account.getDepositDate(), 'dd-MM-yyyy')}"
           ></td>
         </tr>
         <tr>

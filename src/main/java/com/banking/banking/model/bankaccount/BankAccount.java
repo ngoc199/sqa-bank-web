@@ -51,4 +51,9 @@ public abstract class BankAccount {
         return balance.setScale(0, RoundingMode.DOWN);
     }
 
+    /**
+     * Get the type of the bank account
+     * @return accountType
+     */
+    public abstract String getType();
 }

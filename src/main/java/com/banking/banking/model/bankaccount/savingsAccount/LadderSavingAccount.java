@@ -52,4 +52,14 @@ public class LadderSavingAccount extends SavingsAccount {
         return interestAmount;
     }
 
+    @Override
+    public LocalDateTime getDepositDate() {
+        return getCreatedAt().plusDays(getPeriod());
+    }
+
+    @Override
+    public String getType() {
+        return "Tiết kiệm bậc thang";
+    }
+
 }

@@ -53,4 +53,16 @@ public class LoanAccountService {
                         .or(lastNameContains(ownerName))).and(beforeDate(end)).and(afterDate(begin)),
                 PageRequest.of(page, size));
     }
+
+    /**
+     * Get the list of all loan accounts satisfy the conditions
+     * @param ownerName
+     * @param begin
+     * @param end
+     * @return loanAccountList
+     */
+    public List<LoanAccount> getLoanAccountList(String ownerName, LocalDate begin, LocalDate end) {
+        return loanAccountRepository.findAll(Specification.where(Specification.where(firstNameContains(ownerName)).or(middleNameContains(ownerName))
+                        .or(lastNameContains(ownerName))).and(beforeDate(end)).and(afterDate(begin)));
+    }
 }

@@ -77,4 +77,14 @@ public class FixedSavingsAccount extends SavingsAccount {
         return interestAmount;
     }
 
+    @Override
+    public LocalDateTime getDepositDate() {
+        return getCreatedAt().plusDays(getPeriod());
+    }
+
+    @Override
+    public String getType() {
+        return "Tiết kiệm có kỳ hạn";
+    }
+
 }

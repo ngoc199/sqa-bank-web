@@ -39,7 +39,7 @@
                     <label th:text="#{field.bank-account.name}"></label>
                     <a
                       class="d-block"
-                      th:href="@{/my-account/{id}(id=${account.id}, type='saving')}"
+                      th:href="@{/my-account/{id}(id=${account.id}, type='savings')}"
                       th:text="${account.id}"
                     ></a>
                   </div>
@@ -88,7 +88,7 @@
               </button>
               <div
                 id="loan-accounts"
-                class="collapse border rounded-bottom"
+                class="collapse border rounded-bottom p-3"
                 th:classappend="${#lists.isEmpty(savingsAccounts) ? '' : 'show'}"
               >
                 <div

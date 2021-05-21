@@ -71,4 +71,14 @@ public class AccrualSavingsAccount extends SavingsAccount implements IDepositabl
 
     }
 
+    @Override
+    public LocalDateTime getDepositDate() {
+        return getCreatedAt().plusDays(getPeriod());
+    }
+
+    @Override
+    public String getType() {
+        return "Tiết kiệm tích lũy";
+    }
+
 }

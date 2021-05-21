@@ -23,8 +23,23 @@
               ></button>
             </div>
           </div>
+          <div class="col-12" th:if="${noAccountsToReport != null}">
+            <div
+              class="alert alert-dismissible fade show"
+              th:classappend="${'alert-' + noAccountsToReport }"
+              role="alert"
+            >
+            <span th:text="#{bank-account.report-empty}"></span>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
           <div class="col-lg-4">
-            <form action="" method="GET" onsubmit="formUpdateParams(event);">
+            <form id="filter" action="" method="GET" onsubmit="formUpdateParams(event);">
               <div class="mb-3">
                 <label
                   for="owner_name"
@@ -73,6 +88,7 @@
                 ></button>
               </div>
             </form>
+            <a sec:authorize="hasAuthority('report:export')" th:href="@{/reports(type=${param.type}, owner_name=${param.owner_name}, begin_date=${param.begin_date}, end_date=${param.end_date})}" class="btn btn-success w-100" th:text="#{button.report.create}"></a>
           </div>
           <div class="col-lg-8">
             <div th:replace="accounts/includes/navbar :: navbar"></div>
@@ -92,7 +108,7 @@
                   th:each="pageNumber : ${accounts.totalPages}"
                 >
                   <a
-                    href="#"
+                    th:href="@{/accounts(type=${param.type}, owner_name=${param.owner_name}, begin_date=${param.begin_date}, end_date=${param.end_date}, page=${pageNumber - 1})}"
                     class="page-link"
                     th:classappend="${pageNumber == accounts.number + 1} ? 'active' : ''"
                     th:text="${pageNumber}"

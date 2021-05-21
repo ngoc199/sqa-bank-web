@@ -11,21 +11,29 @@
           <th th:text="#{table.head.bank-account.number}"></th>
           <th th:text="#{table.head.bank-account.owner}"></th>
           <th th:text="#{table.head.bank-account.savings.amount}"></th>
+          <th th:text="#{table.head.bank-account.savings.current-amount}"></th>
           <th th:text="#{table.head.bank-account.currency}"></th>
           <th th:text="#{table.head.rate}"></th>
           <th th:text="#{table.head.bank-account.created-at}"></th>
+          <th th:text="#{table.head.bank-account.savings.type}"></th>
         </thead>
         <tbody>
           <tr th:each="account,iter : ${accounts.content}">
-            <td th:text="${iter.count}"></td>
-            <td th:text="${account.id}"></td>
+            <td class="text-end" th:text="${iter.count}"></td>
+            <td><a th:href="@{/accounts/{id}(id=${account.id}, type='savings')}" th:text="${account.id}"></a></td>
             <td th:text="${account.customer.fullname.getFullname()}"></td>
-            <td th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"></td>
-            <td th:text="${account.currency.name()}"></td>
-            <td th:text="${account.rate}"></td>
+            <td class="text-end" th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"></td>
             <td
+            class="text-end"
+              th:text="${#numbers.formatDecimal(account.getCurrentSavingsInterestAmount(), account.getCurrentSavingsInterestAmount().precision(), 'DEFAULT', account.getCurrentSavingsInterestAmount().scale(), 'DEFAULT')}"
+            ></td>
+            <td th:text="${account.currency.name()}"></td>
+            <td class="text-end" th:text="${account.rate}"></td>
+            <td
+            class="text-center"
               th:text="${#temporals.format(account.createdAt, 'dd-mm-yyyy')}"
             ></td>
+            <td th:text="${account.getType()}"></td>
           </tr>
         </tbody>
       </table>

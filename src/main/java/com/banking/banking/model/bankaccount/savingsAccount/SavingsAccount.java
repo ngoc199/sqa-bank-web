@@ -1,6 +1,7 @@
 package com.banking.banking.model.bankaccount.savingsAccount;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -30,6 +31,12 @@ public abstract class SavingsAccount extends BankAccount implements IWithdrawabl
      * @return savingsAmountInterest
      */
     public abstract BigDecimal getCurrentSavingsInterestAmount();
+
+    /**
+     * Get the deposit date of the account. Return null if the deposit date is not supported
+     * @return depositDate
+     */
+    public abstract LocalDateTime getDepositDate();
 
     /**
      * Get the percent value of the rate

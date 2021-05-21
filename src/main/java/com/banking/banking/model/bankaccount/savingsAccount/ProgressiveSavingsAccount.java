@@ -52,4 +52,14 @@ public class ProgressiveSavingsAccount extends SavingsAccount {
         return interestAmount;
     }
 
+    @Override
+    public LocalDateTime getDepositDate() {
+        return null;
+    }
+
+    @Override
+    public String getType() {
+        return "Tiết kiệm tích lũy";
+    }
+
 }

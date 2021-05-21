@@ -1,0 +1,98 @@
+<html
+  layout:decorate="~{home/layout.html}"
+  th:with="title=#{title.report.savings}"
+>
+  <html layout:fragment="main">
+    <section class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <h1 th:text="#{title.report.savings}"></h1>
+
+          <!-- General information -->
+          <div class="mb-4 table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <th th:text="#{table.head.report.total-account}"></th>
+                <th th:text="#{table.head.report.total-pay}"></th>
+              </thead>
+              <tbody>
+                <td th:text="${#lists.size(accounts)}"></td>
+                <td th:text="${#numbers.formatDecimal(totalAmount, totalAmount.precision(), 'DEFAULT', totalAmount.scale(), 'DEFAULT')}"></td>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Account List -->
+          <div class="mb-4">
+            <div th:if="${accounts != null}">
+              <button
+                class="btn btn-secondary w-100 d-flex justify-content-between"
+                th:disabled="${#lists.isEmpty(accounts)}"
+                data-bs-toggle="collapse"
+                data-bs-target="#saving-accounts"
+                th:aria-expanded="${#lists.isEmpty(accounts) ? 'false' : 'true'}"
+                aria-controls="saving-accounts-collapse"
+                th:title="#{navbar.nav-item.savings-accounts}"
+              >
+                <span th:text="#{navbar.nav-item.savings-accounts}"></span>
+                <span th:text="${'(' + #lists.size(accounts) + ')'}"></span>
+              </button>
+              <div
+                id="saving-accounts"
+                class="collapse border rounded-bottom p-3 table-responsive"
+                th:classappend="${#lists.isEmpty(accounts) ? '' : 'show'}"
+              >
+                <table class="table table-bordered">
+                  <thead>
+                    <th th:text="#{table.head.row-num}"></th>
+                    <th th:text="#{table.head.bank-account.number}"></th>
+                    <th th:text="#{table.head.bank-account.owner}"></th>
+                    <th
+                      th:text="#{table.head.bank-account.savings.amount}"
+                    ></th>
+                    <th
+                      th:text="#{table.head.bank-account.savings.current-amount}"
+                    ></th>
+                    <th th:text="#{table.head.bank-account.currency}"></th>
+                    <th th:text="#{table.head.rate}"></th>
+                    <th th:text="#{table.head.bank-account.created-at}"></th>
+                    <th th:text="#{table.head.bank-account.savings.type}"></th>
+                  </thead>
+                  <tbody>
+                    <tr th:each="account,iter : ${accounts}">
+                      <td class="text-end" th:text="${iter.count}"></td>
+                      <td>
+                        <a
+                          th:href="@{/accounts/{id}(id=${account.id}, type='savings')}"
+                          th:text="${account.id}"
+                        ></a>
+                      </td>
+                      <td
+                        th:text="${account.customer.fullname.getFullname()}"
+                      ></td>
+                      <td
+                      class="text-end"
+                        th:text="${#numbers.formatDecimal(account.balance, account.balance.precision(), 'DEFAULT', account.balance.scale(), 'DEFAULT')}"
+                      ></td>
+                      <td
+                      class="text-end"
+                        th:text="${#numbers.formatDecimal(account.getCurrentSavingsInterestAmount(), account.getCurrentSavingsInterestAmount().precision(), 'DEFAULT', account.getCurrentSavingsInterestAmount().scale(), 'DEFAULT')}"
+                      ></td>
+                      <td th:text="${account.currency.name()}"></td>
+                      <td class="text-end" th:text="${account.rate}"></td>
+                      <td
+                      class="text-center"
+                        th:text="${#temporals.format(account.createdAt, 'dd-mm-yyyy')}"
+                      ></td>
+                      <td th:text="${account.getType()}"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </html>
+</html>

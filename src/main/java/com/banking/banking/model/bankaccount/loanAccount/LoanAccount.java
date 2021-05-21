@@ -1,7 +1,7 @@
 package com.banking.banking.model.bankaccount.loanAccount;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -22,18 +22,24 @@ import lombok.Setter;
 public abstract class LoanAccount extends BankAccount implements IDepositable {
     private float rate;
 
-    private BigDecimal moneyPay;
-
-    private LocalDate nextPayDate;
-    private LocalDate realPayDate;
-    private LocalDate payDeadline;
-    private int deadlineModifiedCounter;
+    private LocalDateTime realPayDate;
 
     /**
      * Calculate the current month paying amount
      * @return currentPayingAmount
      */
     public abstract BigDecimal getCurrentPayingAmount();
+
+    public abstract LocalDateTime getNextPayDate();
+
+    /**
+     * Get the percent value of the rate
+     *
+     * @return rateInPercentValue
+     */
+    public float getRatePercentValue() {
+        return rate * 100;
+    }
 
     /**
      * Check if the account's balance and rate are valid

@@ -9,7 +9,6 @@ import static com.banking.banking.repository.bankAccountRepo.specification.Savin
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ public class SavingsAccountService {
      * Find the saving accounts of the current logged in customer
      *
      * @param customerId
-     * @return
+     * @return savingsAccount
      */
     public List<SavingsAccount> getSavingAccountsByCustomerId(String customerId) {
         return savingAccountRepository.findByCustomer_Id(customerId);
@@ -41,18 +40,6 @@ public class SavingsAccountService {
     public SavingsAccount getSavingAccountById(String accountId) {
         return savingAccountRepository.findById(accountId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
-    /**
-     * Get the list of saving accounts by page
-     *
-     * @param page
-     * @param size
-     * @return savingAccountList
-     */
-    public List<SavingsAccount> getSavingAccountList(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return savingAccountRepository.findAll(pageable).toList();
     }
 
     /**
@@ -72,5 +59,21 @@ public class SavingsAccountService {
                 Specification.where(Specification.where(firstNameContains(ownerName)).or(middleNameContains(ownerName))
                         .or(lastNameContains(ownerName))).and(afterDate(begin)).and(beforeDate(end)),
                 PageRequest.of(page, size));
+    }
+
+    /**
+     * Get the list of savings account satisfy the conditions
+     * @param ownerName
+     * @param begin
+     * @param end
+     * @return savingsAccountsList
+     */
+    public List<SavingsAccount> getSavingsAccountList(String ownerName, LocalDate begin, LocalDate end) {
+        return savingAccountRepository
+                .findAll(
+                        Specification
+                                .where(Specification.where(firstNameContains(ownerName))
+                                        .or(middleNameContains(ownerName)).or(lastNameContains(ownerName)))
+                                .and(afterDate(begin)).and(beforeDate(end)));
     }
 }
