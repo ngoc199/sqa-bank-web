@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // database
                 .antMatchers("/accounts/**").hasAuthority(Permission.ACCOUNTS_READ.getPermission())
                 // Only the accountants and the managers can generate report
-                .antMatchers("/report/**").hasAuthority(Permission.REPORT_EXPORT.getPermission())
+                .antMatchers("/reports/**").hasAuthority(Permission.REPORT_EXPORT.getPermission())
                 // Only the manager can modify the configuration of the system
                 .antMatchers("/config/**").hasAuthority(Permission.CONFIG_WRITE.getPermission())
                 // Authenticate other requests
